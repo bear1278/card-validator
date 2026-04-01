@@ -1,1 +1,5 @@
-package card_validator
+package main
+
+func main() {
+
+}
