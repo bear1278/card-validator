@@ -20,7 +20,7 @@ type Bank struct {
 }
 
 func main() {
-	banks, err := loadBankData()
+	banks, err := loadBankData(BANK_FILE)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -28,9 +28,9 @@ func main() {
 	fmt.Println(banks)
 }
 
-func loadBankData() ([]Bank, error) {
+func loadBankData(path string) ([]Bank, error) {
 	var Banks []Bank
-	file, err := os.Open(BANK_FILE)
+	file, err := os.Open(path)
 	if err != nil {
 		fmt.Println(err)
 		return nil, errors.New("error loading bank file")
