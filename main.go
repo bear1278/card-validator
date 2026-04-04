@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 )
@@ -16,10 +17,15 @@ type Bank struct {
 }
 
 func main() {
-	bytes, err := os.ReadFile(BANK_FILE)
+	file, err := os.Open(BANK_FILE)
 	if err != nil {
-		fmt.Printf("File error: %v\n", err)
+		fmt.Println(err)
 		return
 	}
-	fmt.Println(string(bytes))
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		fmt.Println(line)
+	}
 }
