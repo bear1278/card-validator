@@ -1,6 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
+
+const (
+	BANK_FILE = "banks.txt"
+)
 
 type Bank struct {
 	Name    string
@@ -9,6 +16,10 @@ type Bank struct {
 }
 
 func main() {
-	fmt.Println(Bank{})
-	fmt.Println(Bank{"Lunar Bank", 40000, 49999})
+	bytes, err := os.ReadFile(BANK_FILE)
+	if err != nil {
+		fmt.Printf("File error: %v\n", err)
+		return
+	}
+	fmt.Println(string(bytes))
 }
