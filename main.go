@@ -25,7 +25,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("Banks: %#v\n", banks)
+	fmt.Println(banks)
 }
 
 func loadBankData() ([]Bank, error) {
