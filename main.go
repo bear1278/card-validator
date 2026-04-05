@@ -21,13 +21,18 @@ type Bank struct {
 }
 
 func main() {
+	banks, err := loadBankData(BANK_FILE)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	for {
-		binStr := getUserInput()
-		if len(binStr) == 0 {
+		cardNumber := getUserInput()
+		if len(cardNumber) == 0 {
 			break
 		}
-		if !validateInput(binStr) {
-			if len(binStr) < 13 || len(binStr) > 19 {
+		if !validateInput(cardNumber) {
+			if len(cardNumber) < 13 || len(cardNumber) > 19 {
 				fmt.Println("Invalid input. Invalid length of card number")
 			} else {
 				fmt.Println("Invalid input. Card number must contain only numbers")
@@ -35,7 +40,11 @@ func main() {
 
 			continue
 		}
-		fmt.Println(validateLuhn(binStr))
+		if !validateLuhn(cardNumber) {
+			fmt.Println("Invalid card number")
+			continue
+		}
+		fmt.Println("Bank: " + identifyBank(extractBIN(cardNumber), banks))
 	}
 }
 
@@ -100,7 +109,7 @@ func identifyBank(bin int, banks []Bank) string {
 			return bank.Name
 		}
 	}
-	return "Неизвестный банк"
+	return "Unknown Bank"
 }
 
 func validateLuhn(cardNumber string) bool {
