@@ -25,7 +25,11 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(banks)
+	var binStr string = ""
+	fmt.Scan(&binStr)
+	bin := extractBIN(binStr)
+	fmt.Println("Bin:", bin)
+	fmt.Println(identifyBank(bin, banks))
 }
 
 func loadBankData(path string) ([]Bank, error) {
@@ -54,4 +58,21 @@ func loadBankData(path string) ([]Bank, error) {
 		Banks = append(Banks, Bank{parts[0], bankTo, bankFrom})
 	}
 	return Banks, nil
+}
+func extractBIN(cardNumber string) int {
+	binStr := cardNumber[:6]
+	bin, err := strconv.Atoi(binStr)
+	if err != nil {
+		return 0
+	}
+	return bin
+}
+
+func identifyBank(bin int, banks []Bank) string {
+	for _, bank := range banks {
+		if bank.BinFrom <= bin && bank.BinTo >= bin {
+			return bank.Name
+		}
+	}
+	return "Неизвестный банк"
 }
