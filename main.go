@@ -20,18 +20,20 @@ type Bank struct {
 }
 
 func main() {
-	//banks, err := loadBankData(BANK_FILE)
-	//if err != nil {
-	//	fmt.Println(err)
-	//	return
-	//}
-	var binStr string = ""
-	fmt.Scan(&binStr)
-	fmt.Println(validateLuhn(binStr))
-	//bin := extractBIN(binStr)
-	//fmt.Println("Bin:", bin)
-	//fmt.Println(identifyBank(bin, banks))
+	for {
+		binStr := getUserInput()
+		if len(binStr) == 0 {
+			break
+		}
+		fmt.Println(validateLuhn(binStr))
+	}
+}
 
+func getUserInput() string {
+	fmt.Print("Введите номер карты (или Enter для выхода):")
+	reader := bufio.NewReader(os.Stdin)
+	input, _ := reader.ReadString('\n')
+	return strings.TrimSpace(input)
 }
 
 func loadBankData(path string) ([]Bank, error) {
