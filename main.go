@@ -44,7 +44,7 @@ func main() {
 			fmt.Println("Invalid card number")
 			continue
 		}
-		fmt.Println("Bank: " + identifyBank(extractBIN(cardNumber), banks))
+		fmt.Println(identifyBank(extractBIN(cardNumber), banks))
 	}
 }
 
