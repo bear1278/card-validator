@@ -37,12 +37,15 @@ func main() {
 			} else {
 				fmt.Println("Invalid input. Card number must contain only numbers")
 			}
-
 			continue
+		} else {
+			fmt.Println("Valid input")
 		}
 		if !validateLuhn(cardNumber) {
 			fmt.Println("Invalid card number")
 			continue
+		} else {
+			fmt.Println("Valid card number")
 		}
 		fmt.Println(identifyBank(extractBIN(cardNumber), banks))
 	}
