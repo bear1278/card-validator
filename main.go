@@ -27,7 +27,12 @@ func main() {
 			break
 		}
 		if !validateInput(binStr) {
-			fmt.Println("Invalid input")
+			if len(binStr) < 13 || len(binStr) > 19 {
+				fmt.Println("Invalid input. Invalid length of card number")
+			} else {
+				fmt.Println("Invalid input. Card number must contain only numbers")
+			}
+
 			continue
 		}
 		fmt.Println(validateLuhn(binStr))
