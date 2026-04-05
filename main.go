@@ -20,16 +20,18 @@ type Bank struct {
 }
 
 func main() {
-	banks, err := loadBankData(BANK_FILE)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	//banks, err := loadBankData(BANK_FILE)
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
 	var binStr string = ""
 	fmt.Scan(&binStr)
-	bin := extractBIN(binStr)
-	fmt.Println("Bin:", bin)
-	fmt.Println(identifyBank(bin, banks))
+	fmt.Println(validateLuhn(binStr))
+	//bin := extractBIN(binStr)
+	//fmt.Println("Bin:", bin)
+	//fmt.Println(identifyBank(bin, banks))
+
 }
 
 func loadBankData(path string) ([]Bank, error) {
@@ -75,4 +77,22 @@ func identifyBank(bin int, banks []Bank) string {
 		}
 	}
 	return "Неизвестный банк"
+}
+
+func validateLuhn(cardNumber string) bool {
+	var sum int = 0
+	if len(cardNumber) != 16 {
+		return false
+	}
+	for i := 16; i > 0; i-- {
+		value := int(cardNumber[i-1] - '0')
+		if i%2 != 0 {
+			value *= 2
+		}
+		if value > 9 {
+			value -= 9
+		}
+		sum += value
+	}
+	return sum%10 == 0
 }
