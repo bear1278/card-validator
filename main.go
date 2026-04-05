@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 const (
@@ -25,6 +26,10 @@ func main() {
 		if len(binStr) == 0 {
 			break
 		}
+		if !validateInput(binStr) {
+			fmt.Println("Invalid input")
+			continue
+		}
 		fmt.Println(validateLuhn(binStr))
 	}
 }
@@ -34,6 +39,18 @@ func getUserInput() string {
 	reader := bufio.NewReader(os.Stdin)
 	input, _ := reader.ReadString('\n')
 	return strings.TrimSpace(input)
+}
+
+func validateInput(cardNumber string) bool {
+	if len(cardNumber) < 13 || len(cardNumber) > 19 {
+		return false
+	}
+	for _, char := range cardNumber {
+		if !unicode.IsNumber(char) {
+			return false
+		}
+	}
+	return true
 }
 
 func loadBankData(path string) ([]Bank, error) {
@@ -83,12 +100,9 @@ func identifyBank(bin int, banks []Bank) string {
 
 func validateLuhn(cardNumber string) bool {
 	var sum int = 0
-	if len(cardNumber) != 16 {
-		return false
-	}
-	for i := 16; i > 0; i-- {
-		value := int(cardNumber[i-1] - '0')
-		if i%2 != 0 {
+	for i := 1; i <= len(cardNumber); i++ {
+		value := int(cardNumber[len(cardNumber)-i] - '0')
+		if i%2 == 0 {
 			value *= 2
 		}
 		if value > 9 {
