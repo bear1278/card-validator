@@ -31,11 +31,11 @@ func main() {
 		if len(cardNumber) == 0 {
 			break
 		}
-		if !validateInput(cardNumber) {
+		if err := validateInput(cardNumber); err != nil {
 			if len(cardNumber) < 13 || len(cardNumber) > 19 {
-				fmt.Println("Invalid input. Invalid length of card number")
+				fmt.Println(err.Error())
 			} else {
-				fmt.Println("Invalid input. Card number must contain only numbers")
+				fmt.Println(err.Error())
 			}
 			continue
 		} else {
@@ -52,22 +52,22 @@ func main() {
 }
 
 func getUserInput() string {
-	fmt.Print("Введите номер карты (или Enter для выхода):")
+	fmt.Print("Enter card number (or click Enter to exit):")
 	reader := bufio.NewReader(os.Stdin)
 	input, _ := reader.ReadString('\n')
 	return strings.TrimSpace(input)
 }
 
-func validateInput(cardNumber string) bool {
+func validateInput(cardNumber string) error {
 	if len(cardNumber) < 13 || len(cardNumber) > 19 {
-		return false
+		return errors.New("invalid input. Invalid length of card number")
 	}
 	for _, char := range cardNumber {
 		if !unicode.IsNumber(char) {
-			return false
+			return errors.New("invalid input. Card number must contain only numbers")
 		}
 	}
-	return true
+	return nil
 }
 
 func loadBankData(path string) ([]Bank, error) {
