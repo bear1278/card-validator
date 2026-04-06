@@ -16,6 +16,20 @@
 go run main.go
 ```
 
+## Примеры использования
+
+```bash
+go run main.go
+Enter card number (or click Enter to exit):123
+invalid input. Invalid length of card number
+Enter card number (or click Enter to exit):4532015112830366
+Valid input
+Valid card number
+Lunar Bank
+Enter card number (or click Enter to exit):
+
+```
+
 ## Структура проекта
 
 - banks.txt - файл с банками-эмитентами
